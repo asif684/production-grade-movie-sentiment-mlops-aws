@@ -207,4 +207,4 @@ marimo/_lsp/
 __marimo__/
 cred.txt
 local_s3/
-models/
+models/data/raw
