@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sentiment Analysis</title>
+
+  <style>
+    :root {
+      --bg:#0f1724;
+      --glass-border: rgba(255,255,255,0.06);
+      --accent: linear-gradient(135deg,#6ee7b7 0%, #3b82f6 100%);
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1000px 500px at 10% 10%, rgba(59,130,246,0.08), transparent 8%),
+                  radial-gradient(800px 400px at 90% 90%, rgba(99,102,241,0.06), transparent 8%),
+                  var(--bg);
+      color: #e6eef6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px) saturate(120%);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    h1 { margin: 0 0 12px 0; font-size: 28px; letter-spacing: -0.2px; color: #f8fbff; }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+      color: inherit;
+      font-size: 15px;
+      resize: vertical;
+      outline: none;
+      transition: box-shadow .18s, transform .08s;
+    }
+
+    textarea:focus { box-shadow: 0 6px 18px rgba(59,130,246,0.14); transform: translateY(-1px); }
+
+    .controls { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
+    button.primary {
+      background: var(--accent);
+      padding: 10px 18px;
+      border: none;
+      border-radius: 10px;
+      color: #05263b;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+      box-shadow: 0 8px 24px rgba(59,130,246,0.16);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    button.primary:active { transform: translateY(1px); }
+
+    button.ghost {
+      background: transparent;
+      color: #9aa4b2;
+      border: 1px solid rgba(255,255,255,0.03);
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .positive {
+      background: linear-gradient(90deg, rgba(16,185,129,0.12), rgba(59,130,246,0.03));
+      color: #dff3e8;
+      border-left: 4px solid rgba(34,197,94,0.9);
+    }
+
+    .negative {
+      background: linear-gradient(90deg, rgba(239,68,68,0.09), rgba(234,88,12,0.02));
+      color: #ffdfe0;
+      border-left: 4px solid rgba(239,68,68,0.9);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Sentiment Analysis</h1>
+
+    <form id="sentimentForm" action="{{ url_for('predict') }}" method="POST" autocomplete="off" novalidate>
+      <textarea id="text" name="text" placeholder="Enter your text here..." maxlength="2000" required>{{ request.form.get('text', '') }}</textarea>
+      
+      <div class="controls">
+        <button type="submit" class="primary">🔮 Predict</button>
+        <button type="button" class="ghost" id="clearBtn">Clear</button>
+      </div>
+    </form>
+
+    {% if result is not none %}
+      {% set result_str = result|string %}
+
+      {# Map numeric results to labels #}
+      {% if result_str.isdigit() %}
+        {% if result_str == "1" %}
+          {% set display_result = "Positive" %}
+        {% elif result_str == "0" %}
+          {% set display_result = "Negative" %}
+        {% else %}
+          {% set display_result = "Unknown" %}
+        {% endif %}
+      {% else %}
+        {% set display_result = result_str %}
+      {% endif %}
+
+      <div class="result {% if display_result.lower() == 'positive' %}positive{% elif display_result.lower() == 'negative' %}negative{% endif %}">
+        {% if display_result.lower() == 'positive' %}
+          😊 Positive Sentiment
+        {% elif display_result.lower() == 'negative' %}
+          😞 Negative Sentiment
+        {% else %}
+          ⚠️ {{ display_result }}
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  <script>
+    const clearBtn = document.getElementById('clearBtn');
+    const textarea = document.getElementById('text');
+    clearBtn.addEventListener('click', ()=>{
+      textarea.value='';
+      textarea.focus();
+    });
+  </script>
+</body>
+</html>
