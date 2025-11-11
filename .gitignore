@@ -212,3 +212,4 @@ data/raw
 data/interim
 data/interim
 data/processed
+models/
