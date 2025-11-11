@@ -211,3 +211,4 @@ models/data/raw
 data/raw
 data/interim
 data/interim
+data/processed
