@@ -80,7 +80,7 @@ if not os.getenv("CI"):
     try:
         dagshub.init(
             repo_owner="mohammedasifameenbaig684",
-            repo_name="production-grade-movie-sentiment-mlops",
+            repo_name="production-grade-movie-sentiment-mlops-aws",
             mlflow=True,
             oauth=False
         )
