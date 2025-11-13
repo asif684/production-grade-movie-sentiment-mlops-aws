@@ -135,6 +135,7 @@ pip install flask
 dvc push   # Push data to S3
 pip freeze > requirements.txt
 ```
+![img alt](https://github.com/asif684/production-grade-movie-sentiment-mlops-aws/blob/5d9c1d08e5e9bd1ac7ad8cd09c3a8e1edf3df69d/movie-app-img.png)
 ---
 ## ⚙️ CI/CD with GitHub Actions
 ---
