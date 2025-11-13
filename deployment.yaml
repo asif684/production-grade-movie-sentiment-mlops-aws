@@ -32,6 +32,11 @@ spec:
             secretKeyRef:
               name: capstone-secret
               key: CAPSTONE_TEST
+        - name: DAGSHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: capstone-secret
+              key: DAGSHUB_TOKEN
 
 ---
 apiVersion: v1
