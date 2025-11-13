@@ -37,6 +37,12 @@ To build, train, deploy, and monitor a sentiment analysis model using an **MLOps
 | **Version Control** | Git & GitHub |
 
 ---
+---
+
+##  Flow-Chart
+---
+![imag alt](https://github.com/asif684/production-grade-movie-sentiment-mlops-aws/blob/e55e702242d4de7cdd8a74a06ce820d912bd4730/movie_mlops.png)
+---
 
 ## 🏗️ Project Structure Setup
 
