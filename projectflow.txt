@@ -75,3 +75,34 @@
    (Also add this permission to the IAM user: AmazonEC2ContainerRegistryFullAccess)
 
 38. Execute CICD pipeline till the stage where we build and push image to ECR.
+
+
+----------------------------------------------------------------------------------
+*********Setup required before moving to EKS deployment*********
+----------------------------------------------------------------------------------
+* Run the following in PowerShell to see the AWS CLI path being used: Get-Command aws
+If the path points to your Anaconda environment (e.g., C:\Users\Personal\anaconda3\...), it’s a conflicting installation.
+
+* Uninstall Python-Based AWS CLI(Remove the conflicting AWS CLI from your Python environment): pip uninstall awscli
+* Verify it's uninstalled: aws --version
+* Update Environment Variables:
+> Make sure the .msi AWS CLI path is in your system PATH (usually installed at C:\Program Files\Amazon\AWSCLIV2\aws.exe).
+> Add it to your PATH if missing: Open Control Panel > System > Advanced System Settings > Environment Variables. Under "System Variables," find Path, and add the AWS CLI path: C:\Program Files\Amazon\AWSCLIV2\
+> Test AWS CLI Again: aws --version
+----------------------------------------------------------------------------------
+
+* Download kubectl: Invoke-WebRequest -Uri "https://dl.k8s.io/release/v1.28.2/bin/windows/amd64/kubectl.exe" -OutFile "kubectl.exe"
+* Locate the Download: Get-Location
+* Move kubectl.exe to a directory in your system PATH, such as C:\Windows\System32: Move-Item -Path .\kubectl.exe -Destination "C:\Windows\System32"
+* Test if kubectl is properly installed: kubectl version --client
+
+----------------------------------------------------------------------------------
+
+* Download eksctl: Invoke-WebRequest -Uri "https://github.com/weaveworks/eksctl/releases/download/v0.158.0/eksctl_Windows_amd64.zip" -OutFile "eksctl.zip"
+* Extract eksctl: Expand-Archive -Path .\eksctl.zip -DestinationPath .
+* Move the extracted eksctl.exe file to C:\Windows\System32 or any folder in your system PATH: Move-Item -Path .\eksctl.exe -Destination "C:\Windows\System32\eksctl.exe"
+----------------------------------------------------------------------------------
+* Verify AWS CLI: aws --version
+* Verify kubectl: kubectl version --client
+* Verify eksctl: eksctl version
+----------------------------------------------------------------------------------
